@@ -57,7 +57,7 @@ height:150px
 				</div>
 			</div>
 		</div><!-- /container -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script src="js/jquerypp.custom.js"></script>
 		<script src="js/jquery.bookblock.js"></script>
 		<script>
@@ -93,10 +93,11 @@ height:150px
 								userIdList.push("http://graph.facebook.com/" + tmpId + "/picture?type=square");
 							}
 							if(imageList.length < 60){
-								queryIndex = 60;
+								queryIndex = 1;
 							}else{
 								queryIndex = imageList.length - 1;
 							}
+							window.console.log('query done');
 						}
 					};
 				xmlhttp.open("GET", url, true);
@@ -107,6 +108,7 @@ height:150px
 			{
 				if(imageList.length != 0){
 					if(toggle == 1){
+						$( '#bb-bookblock' ).bookblock( 'updatePage' );
 						document.getElementById("myImage1").src = imageList[slideIndex];						
 						document.getElementById("myProfileImage1").src = userIdList[slideIndex];
 						document.getElementById("myMessage1").innerHTML = messageList[slideIndex];
@@ -114,6 +116,7 @@ height:150px
 						$( '#bb-bookblock' ).bookblock( 'next' );
 						toggle = 0;
 					}else{
+						$( '#bb-bookblock' ).bookblock( 'updatePage' );
 						document.getElementById("myImage2").src = imageList[slideIndex];
 						document.getElementById("myProfileImage2").src = userIdList[slideIndex];
 						document.getElementById("myMessage2").innerHTML = messageList[slideIndex];
@@ -128,7 +131,8 @@ height:150px
 					}
 					
 					queryIndex--;	
-					if(queryIndex <= 0) { 
+					if(queryIndex <= 0) {
+						window.console.log("query FB");				
 						FBquery(); 
 					}
 				}
