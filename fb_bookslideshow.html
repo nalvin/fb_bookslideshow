@@ -93,11 +93,12 @@ height:150px
 								userIdList.push("http://graph.facebook.com/" + tmpId + "/picture?type=square");
 							}
 							if(imageList.length < 60){
-								queryIndex = 1;
+								queryIndex = 10;
 							}else{
 								queryIndex = imageList.length - 1;
 							}
-							window.console.log('query done');
+							showSlides();
+							window.console.log(messageList);
 						}
 					};
 				xmlhttp.open("GET", url, true);
@@ -106,24 +107,22 @@ height:150px
 
 			function showSlides() 
 			{
-				if(imageList.length != 0){
+				if(imageList.length != 0){				
+					$( '#bb-bookblock' ).bookblock( 'updatePage' );
 					if(toggle == 1){
-						$( '#bb-bookblock' ).bookblock( 'updatePage' );
 						document.getElementById("myImage1").src = imageList[slideIndex];						
 						document.getElementById("myProfileImage1").src = userIdList[slideIndex];
 						document.getElementById("myMessage1").innerHTML = messageList[slideIndex];
-						document.getElementById("userName1").innerHTML = userNameList[slideIndex];
-						$( '#bb-bookblock' ).bookblock( 'next' );
+						document.getElementById("userName1").innerHTML = userNameList[slideIndex];						
 						toggle = 0;
 					}else{
-						$( '#bb-bookblock' ).bookblock( 'updatePage' );
 						document.getElementById("myImage2").src = imageList[slideIndex];
 						document.getElementById("myProfileImage2").src = userIdList[slideIndex];
 						document.getElementById("myMessage2").innerHTML = messageList[slideIndex];
 						document.getElementById("userName2").innerHTML = userNameList[slideIndex];
-						$( '#bb-bookblock' ).bookblock( 'next' );
 						toggle = 1;
 					}
+					$( '#bb-bookblock' ).bookblock( 'next' );
 					
 					slideIndex++;
 					if(slideIndex >= imageList.length) { 
@@ -131,12 +130,12 @@ height:150px
 					}
 					
 					queryIndex--;	
-					if(queryIndex <= 0) {
-						window.console.log("query FB");				
+					if(queryIndex <= 0) {		
 						FBquery(); 
+					}else{
+						setTimeout(showSlides, 5000); // Change image every 5 seconds
 					}
-				}
-				setTimeout(showSlides, 5000); // Change image every 5 seconds
+				}				
 			}
 			var Page = (function() {				
 				var config = {
@@ -159,7 +158,6 @@ height:150px
 		<script>
 				Page.init();
 				FBquery();
-				showSlides();
 		</script>
 	</body>
 </html>

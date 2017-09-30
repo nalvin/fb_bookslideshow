@@ -243,7 +243,6 @@
 			var isLimit = dir === 'next' && self.current === self.itemsCount - 1 || dir === 'prev' && self.current === 0;
 			// callback trigger
 			self.options.onEndFlip( self.previous, self.current, isLimit );
-			window.console.log('updatePage');
 			
 		},
 		// creates the necessary layout for the 3d structure
@@ -264,35 +263,13 @@
 				speed = this.end ? 400 : this.options.speed;
 
 			this.$items.hide();
-			this.$el.prepend( $s_left, $s_middle, $s_right );
+			this.$el.prepend( $s_left, $s_middle, $s_right );			
 			
-			window.console.log('layout1');
-			window.console.log(this.transEndEventName);
 			$s_middle.css({
 				transitionDuration: speed + 'ms',
 				transitionTimingFunction : this.options.easing
 			});
 			
-			/*
-			$s_middle.css({
-				transitionDuration: speed + 'ms',
-				transitionTimingFunction : this.options.easing
-			}).on( this.transEndEventName, function( event ) {
-				window.console.log('eventListener');
-				window.console.log(event);
-				if ( $( event.target ).hasClass( 'bb-page' ) ) {
-					self.$el.children( '.bb-page' ).remove();
-					self.$nextItem.show();
-					self.end = false;
-					self.isAnimating = false;
-					var isLimit = dir === 'next' && self.current === self.itemsCount - 1 || dir === 'prev' && self.current === 0;
-					// callback trigger
-					self.options.onEndFlip( self.previous, self.current, isLimit );
-				}
-			});
-			*/
-			window.console.log('layout2');
-
 			if ( dir === 'prev' ) {
 				$s_middle.addClass( 'bb-flip-initial' );
 			}
@@ -329,7 +306,6 @@
 				$o_middle_b.css(o_middle_b_style);
 				$o_left.css(o_left_style);
 				$o_right.css(o_right_style);
-				window.console.log('layout3');
 
 			}
 
@@ -339,7 +315,6 @@
 
 				// overlays
 				if ( self.options.shadows && !self.end ) {
-					window.console.log('layout4');
 					$o_middle_f.css({
 						opacity: dir === 'next' ? self.options.shadowFlip : 0
 					});
