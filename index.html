@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js demo-1">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Wedding slideshow</title>
+		<meta name="author" content="Chin-Wei Hsu" />
+		<link rel="stylesheet" type="text/css" href="css/bookblock.css" />
+		<script src="js/modernizr.custom.js"></script>
+	
+	</head>
+	<body>
+		<div class="container clearfix">	
+			<div class="bb-custom-wrapper">
+				<div id="bb-bookblock" class="bb-bookblock">
+					<div class="bb-item">
+						<table style="width:100%;">
+							<td style="width:50%;" class="middle_line">
+								<img Id="myImage1" class="my_image" src=""> 
+							</td>
+							<td style="width:50%;">
+								<div>
+									<img Id="myProfileImage1" class="my_profileImage" src=""> 
+									<p Id="userName1" > </p>
+								</div>
+								
+								<p Id="myMessage1" class="my_message" > </p>
+							</td>
+						</table>
+					</div>
+					
+					<div class="bb-item">
+						<table style="width:100%;">
+							<td style="width:50%;" class="middle_line">
+								<img Id="myImage2" class="my_image" src=""> 
+							</td>
+							<td style="width:50%;">
+								<div>
+									<img Id="myProfileImage2" class="my_profileImage" src=""> 
+									<p Id="userName2" > </p>
+								</div>
+								
+								<p Id="myMessage2" class="my_message" > </p>
+							</td>
+						</table>
+					</div>
+				</div>					
+			</div>
+		</div><!-- /container -->
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="js/jquery.bookblock.js"></script>
+		<script>
+			var slideIndex = 0;
+			var queryIndex = 10;
+			var toggle = 0;
+			var messageList = [];
+			var imageList = [];
+			var userNameList = [];
+			var userIdList = [];
+			var url = "";
+			var default_pic = "";
+			function FBquery() 
+			{	
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function(){
+						if(this.readyState == 4 && this.status == 200) {
+							var myArr = JSON.parse(this.responseText).data;
+							messageList = [];
+							imageList = [];
+							userNameList = [];
+							userIdList = [];
+							for (idx = 0; idx < myArr.length; idx++){
+								messageList.push(myArr[idx].message);
+								if (myArr[idx].full_picture)	{
+									imageList.push(myArr[idx].full_picture);
+								}else {
+									imageList.push(default_pic);
+								}
+								userNameList.push(myArr[idx].from.name);
+								var tmpId = myArr[idx].from.id;
+								userIdList.push("http://graph.facebook.com/" + tmpId + "/picture?type=square");
+							}
+							if(imageList.length < 60){
+								queryIndex = 10;
+							}else{
+								queryIndex = imageList.length - 1;
+							}
+							setTimeout(showSlides, 5000); // Change image every 5 seconds
+							window.console.log(messageList);
+						}
+					};
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();				
+			};
+
+			function showSlides() 
+			{
+				if(imageList.length != 0){				
+					$( '#bb-bookblock' ).bookblock( 'updatePage' );
+					if(toggle == 1){
+						document.getElementById("myImage1").src = imageList[slideIndex];						
+						document.getElementById("myProfileImage1").src = userIdList[slideIndex];
+						document.getElementById("myMessage1").innerHTML = messageList[slideIndex];
+						document.getElementById("userName1").innerHTML = userNameList[slideIndex];						
+						toggle = 0;
+					}else{
+						document.getElementById("myImage2").src = imageList[slideIndex];
+						document.getElementById("myProfileImage2").src = userIdList[slideIndex];
+						document.getElementById("myMessage2").innerHTML = messageList[slideIndex];
+						document.getElementById("userName2").innerHTML = userNameList[slideIndex];
+						toggle = 1;
+					}
+					$( '#bb-bookblock' ).bookblock( 'next' );
+					
+					slideIndex++;
+					if(slideIndex >= imageList.length) { 
+						slideIndex = 0; 
+					}
+					
+					queryIndex--;	
+					if(queryIndex <= 0) {		
+						FBquery(); 
+					}else{
+						setTimeout(showSlides, 5000); // Change image every 5 seconds
+					}
+				}				
+			}
+			var Page = (function() {				
+				var config = {
+						$bookBlock : $( '#bb-bookblock' )
+					},
+					init = function() {
+						config.$bookBlock.bookblock( {
+							speed : 800,
+							shadowSides : 0.8,
+							shadowFlip : 0.7
+						} );
+					},
+					initEvents = function() {						
+						var $slides = config.$bookBlock.children();						
+					};
+					return { init : init };
+
+			})();
+		</script>
+		<script>
+				Page.init();
+				FBquery();
+		</script>
+	</body>
+</html>
