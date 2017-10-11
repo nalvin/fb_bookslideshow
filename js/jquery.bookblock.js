@@ -1,3 +1,29 @@
+(function() {
+
+	var event = jQuery.event;		
+	/**
+	 * Finds event handlers of a given type on an element.
+	 * @param {HTMLElement} el
+	 * @param {Array} types an array of event names
+	 * @param {String} [selector] optional selector
+	 * @return {Array} an array of event handlers
+	 */
+	event.find = function( el, types, selector ) {
+		var events = ( $._data(el) || {} ).events,
+			handlers = [],
+			t, liver, live;
+
+		if (!events ) {
+			return handlers;
+		}
+		findHelper(events, types, function( type, handler ) {
+			handlers.push(handler);
+		}, selector);
+		return handlers;
+	};
+	
+})(jQuery);
+
 /**
  * jquery.bookblock.js v2.0.1
  * http://www.codrops.com
@@ -104,9 +130,7 @@
 		// if we want to specify a selector that triggers the next() function. example: ´#bb-nav-next´
 		nextEl : '',
 		// if we want to specify a selector that triggers the prev() function
-		prevEl : '',
-		// autoplay. If true it overwrites the circular option to true
-		autoplay : false,
+		prevEl : '',		
 		// time (ms) between page switch, if autoplay is true
 		interval : 3000,
 		// callback after the flip transition
@@ -150,11 +174,6 @@
 			this.support = Modernizr.csstransitions && Modernizr.csstransforms3d && Modernizr.csstransformspreserve3d;
 			// initialize/bind some events
 			this._initEvents();
-			// start slideshow
-			if ( this.options.autoplay ) {
-				this.options.circular = true;
-				this._startSlideshow();
-			}
 		},
 		_initEvents : function() {
 
@@ -175,7 +194,6 @@
 
 		},
 		_action : function( dir, page ) {
-			this._stopSlideshow();
 			this._navigate( dir, page );
 		},
 		_navigate : function( dir, page ) {
@@ -339,86 +357,19 @@
 			var $side;
 
 			switch (side) {
-				case 'left':
-						/*
-						<div class="bb-page" style="z-index:102;">
-							<div class="bb-back">
-								<div class="bb-outer">
-									<div class="bb-content">
-										<div class="bb-inner">
-											dir==='next' ? [content of current page] : [content of next page]
-										</div>
-									</div>
-									<div class="bb-overlay"></div>
-								</div>
-							</div>
-						</div>
-						*/
+				case 'left':						
 					$side = $('<div class="bb-page"><div class="bb-back"><div class="bb-outer"><div class="bb-content"><div class="bb-inner">' + ( dir === 'next' ? this.$current.html() : this.$nextItem.html() ) + '</div></div><div class="bb-overlay"></div></div></div></div>').css( 'z-index', 102 );
 					break;
-				case 'middle':
-						/*
-						<div class="bb-page" style="z-index:103;">
-							<div class="bb-front">
-								<div class="bb-outer">
-									<div class="bb-content">
-										<div class="bb-inner">
-											dir==='next' ? [content of current page] : [content of next page]
-										</div>
-									</div>
-									<div class="bb-flipoverlay"></div>
-								</div>
-							</div>
-							<div class="bb-back">
-								<div class="bb-outer">
-									<div class="bb-content">
-										<div class="bb-inner">
-											dir==='next' ? [content of next page] : [content of current page]
-										</div>
-									</div>
-									<div class="bb-flipoverlay"></div>
-								</div>
-							</div>
-						</div>
-						*/
+				case 'middle':						
 					$side = $('<div class="bb-page"><div class="bb-front"><div class="bb-outer"><div class="bb-content"><div class="bb-inner">' + (dir === 'next' ? this.$current.html() : this.$nextItem.html()) + '</div></div><div class="bb-flipoverlay"></div></div></div><div class="bb-back"><div class="bb-outer"><div class="bb-content" style="width:' + this.elWidth + 'px"><div class="bb-inner">' + ( dir === 'next' ? this.$nextItem.html() : this.$current.html() ) + '</div></div><div class="bb-flipoverlay"></div></div></div></div>').css( 'z-index', 103 );
 					break;
-				case 'right':
-						/*
-						<div class="bb-page" style="z-index:101;">
-							<div class="bb-front">
-								<div class="bb-outer">
-									<div class="bb-content">
-										<div class="bb-inner">
-											dir==='next' ? [content of next page] : [content of current page]
-										</div>
-									</div>
-									<div class="bb-overlay"></div>
-								</div>
-							</div>
-						</div>
-						*/
+				case 'right':						
 					$side = $('<div class="bb-page"><div class="bb-front"><div class="bb-outer"><div class="bb-content"><div class="bb-inner">' + ( dir === 'next' ? this.$nextItem.html() : this.$current.html() ) + '</div></div><div class="bb-overlay"></div></div></div></div>').css( 'z-index', 101 );
 					break;
 			}
 
 			return $side;
-		},
-		_startSlideshow : function() {
-			var self = this;
-			this.slideshow = setTimeout( function() {
-				self._navigate( 'next' );
-				if ( self.options.autoplay ) {
-					self._startSlideshow();
-				}
-			}, this.options.interval );
-		},
-		_stopSlideshow : function() {
-			if ( this.options.autoplay ) {
-				clearTimeout( this.slideshow );
-				this.options.autoplay = false;
-			}
-		},
+		},		
 		// public method: flips next
 		next : function() {
 			this._action( this.options.direction === 'ltr' ? 'next' : 'prev' );
@@ -426,38 +377,8 @@
 		// public method: flips back
 		prev : function() {
 			this._action( this.options.direction === 'ltr' ? 'prev' : 'next' );
-		},
-		// public method: goes to a specific page
-		jump : function( page ) {
-
-			page -= 1;
-
-			if ( page === this.current || page >= this.itemsCount || page < 0 ) {
-				return false;
-			}
-
-			var dir;
-			if( this.options.direction === 'ltr' ) {
-				dir = page > this.current ? 'next' : 'prev';
-			}
-			else {
-				dir = page > this.current ? 'prev' : 'next';
-			}
-			this._action( dir, page );
-
-		},
-		// public method: goes to the last page
-		last : function() {
-			this.jump( this.itemsCount );
-		},
-		// public method: goes to the first page
-		first : function() {
-			this.jump( 1 );
-		},
-		// public method: check if isAnimating is true
-		isActive: function() {
-			return this.isAnimating;
-		},
+		},		
+		
 		// public method: dynamically adds new elements
 		// call this method after inserting new "bb-item" elements inside the BookBlock
 		update : function () {
@@ -465,24 +386,8 @@
 			this.$items = this.$el.children( '.bb-item' );
 			this.itemsCount = this.$items.length;
 			this.current = $currentItem.index();
-		},
-		destroy : function() {
-			if ( this.options.autoplay ) {
-				this._stopSlideshow();
-			}
-			this.$el.removeClass( 'bb-' + this.options.orientation );
-			this.$items.show();
-
-			if ( this.options.nextEl !== '' ) {
-				$( this.options.nextEl ).off( '.bookblock' );
-			}
-
-			if ( this.options.prevEl !== '' ) {
-				$( this.options.prevEl ).off( '.bookblock' );
-			}
-
-			$window.off( 'debouncedresize' );
 		}
+		
 	}
 
  	var logError = function( message ) {
