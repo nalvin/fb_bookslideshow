@@ -1,7 +1,62 @@
+body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
+.middle_line
+{
+	border-right:1px #e6e6e6 solid;
+}
+
+.my_message
+{
+	height:150px
+}
+
+.my_profileImage
+{
+	width:50px;
+	height:50px;
+	border-radius: 50%;
+}
+
+.my_image
+{
+	width:550px;
+	height:500px;
+	margin: 25px 15px;
+	object-fit: contain;
+	border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.demo-1 body {
+	color: #87968e;
+	background: #fff2e3;
+}
+
+.container {
+	height: 100%;
+	margin: 80px 0px 0px 20px;
+}
+
+.bb-custom-wrapper {
+	width: 1200px;
+	height: 550px;
+	position: relative;
+	margin: 40px 40px;
+	text-align: center;
+}
+
+.bb-custom-wrapper .bb-bookblock {
+	box-shadow: 0 12px 20px -10px rgba(81,64,49,0.6);
+}
+
 .bb-bookblock {
-	width: 600px;
-	height: 600px;
-	margin: 0 auto;
+	width: 1200px;
+	height: 550px;
+	margin: 0;
 	position: relative;
 	z-index: 100;
 	-webkit-perspective: 1300px;
@@ -170,14 +225,3 @@
 	background: #fff;
 }
 
-/* No JS */
-.no-js .bb-bookblock, 
-.no-js ul.bb-custom-grid li {
-	width: auto;
-	height: auto;
-}
-
-.no-js .bb-item {
-	display: block;
-	position: relative;
-}
