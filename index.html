@@ -15,35 +15,63 @@
 			<div class="bb-custom-wrapper">
 				<div id="bb-bookblock" class="bb-bookblock">
 					<div class="bb-item">
-						<table style="width:100%;">
-							<td style="width:50%;" class="middle_line">
-								<img Id="myImage1" class="my_image" src=""> 
-							</td>
-							<td style="width:50%;">
-								<div>
+						<table style="width:100%;"><tbody>							
+							<tr style="width:50%;">								
+								<td style="width:5%"> 
+									<p></p>
+								</td>
+								<td style="width:10%">
 									<img Id="myProfileImage1" class="my_profileImage" src=""> 
+								</td>
+								<td style="width:30%">
 									<p Id="userName1" > </p>
-								</div>
-								
-								<p Id="myMessage1" class="my_message" > </p>
-							</td>
-						</table>
+								</td>
+								<td style="width:5%" class="middle_line"> 
+									<p></p>
+								</td>
+								<td rowspan="2" style="width:50%;">
+									<img Id="myImage1" class="my_image" src=""> 
+								</td>								
+							</tr>
+							
+							<tr>
+								<td><p> </p></td>
+								<td colspan="2" >
+									<p Id="myMessage1" class="my_message" > </p>
+								</td>
+								<td class="middle_line"><p> </p></td>
+							</tr>
+						</tbody></table>
 					</div>
 					
 					<div class="bb-item">
-						<table style="width:100%;">
-							<td style="width:50%;" class="middle_line">
-								<img Id="myImage2" class="my_image" src=""> 
-							</td>
-							<td style="width:50%;">
-								<div>
+						<table style="width:100%;"><tbody>							
+							<tr style="width:50%;">								
+								<td style="width:5%"> 
+									<p></p>
+								</td>
+								<td style="width:10%">
 									<img Id="myProfileImage2" class="my_profileImage" src=""> 
+								</td>
+								<td style="width:30%">
 									<p Id="userName2" > </p>
-								</div>
-								
-								<p Id="myMessage2" class="my_message" > </p>
-							</td>
-						</table>
+								</td>
+								<td style="width:5%" class="middle_line"> 
+									<p></p>
+								</td>
+								<td rowspan="2" style="width:50%;">
+									<img Id="myImage2" class="my_image" src=""> 
+								</td>								
+							</tr>
+							
+							<tr>
+								<td><p> </p></td>
+								<td colspan="2" >
+									<p Id="myMessage2" class="my_message" > </p>
+								</td>
+								<td class="middle_line"><p> </p></td>
+							</tr>
+						</tbody></table>
 					</div>
 				</div>					
 			</div>
@@ -58,7 +86,9 @@
 			var imageList = [];
 			var userNameList = [];
 			var userIdList = [];
-			var url = "https://graph.facebook.com/v2.10/1569234599765262/feed?fields=full_picture,message,from&access_token=466372347083157|BHzmFE0wq1V0l7tkFcJf5hdLMU4";
+			var token = "EAACEdEose0cBAOrfHWZCycPuCjcn5dA8kwZA3ZBXqwwZCt9wQg2YXPCrMGDwGZCXMaJIOwFcJKkudolwjhAvyXhERVfXxkAwFXPIYCYFQuzICO9SVl4v3vVHHylm8EjNJFkvzxXv3dja9O5kWchgP4irCdtCwqZBZBSiSqy6aXypX0iVU7bxaGfdj8n7jw3QblddEs3DjnN0vsBMKa5NaWJ61yZBiXFZCBuiAJpOS1eGVfQZDZD";
+			var targetId = "1859196144394422";
+			var url = "https://graph.facebook.com/v2.10/" + targetId + "/feed?fields=full_picture,message,from&access_token=" + token;
 			var default_pic = "https://scontent.xx.fbcdn.net/v/t1.0-9/21740391_1702534819777619_3051812303718747661_n.jpg?oh=8b88c90321d890bbf9c5dd5ae02c95c3&oe=5A4995C2";
 			function FBquery() 
 			{	
