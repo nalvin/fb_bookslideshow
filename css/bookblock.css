@@ -10,7 +10,9 @@ body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
 
 .my_message
 {
-	height:150px
+	height:150px;
+	font-size: 40px;
+	text-align: left;
 }
 
 .my_profileImage
