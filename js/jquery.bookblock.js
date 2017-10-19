@@ -5,7 +5,7 @@ var messageList = [];
 var imageList = [];
 var userNameList = [];
 var userIdList = [];
-var token = "EAABtTOZBid2cBAJjdZCzhOxx6Np31uq8UVN0ZAZBaBtAHXxAvZCizZBWnAfcZCR0sjXNqpXJaThHIJFvW2KnUwRk2Cx0lW55g2URnDX1JPAZBpUqeqBefBQ8PEMA0C1qEaRUuaHQJvQInbls6AekdqTyyV2SxasHpVYUBU47Fa2CQQQp9AGfCdA6PkFDQU9ioAHFaxcjwZAvzyAZDZD";
+var token = "EAABtTOZBid2cBAHSWKdMmZCe2HslF2LZB6kxPWlnLXqAEVn69m3xYMavaWE42ZBEWELpirYBin1GViyjZB8181Hkgo4ejZA3p521T0S4Wqx6ZCWw9ybm0dERzgINHUHrfSKIRfwxMQSLKZBPzMpLI74AfYcyderMflUZD";
 var targetId = "1859196144394422";
 var url = "https://graph.facebook.com/v2.10/" + targetId + "/feed?fields=full_picture,message,from&access_token=" + token;
 var default_pic = "https://scontent.xx.fbcdn.net/v/t1.0-9/21740391_1702534819777619_3051812303718747661_n.jpg?oh=8b88c90321d890bbf9c5dd5ae02c95c3&oe=5A4995C2";
